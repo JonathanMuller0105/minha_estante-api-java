@@ -1,0 +1,46 @@
+{
+  "comando": ".\\mvnw.cmd test",
+  "resultado": "BUILD SUCCESS",
+  "dataLocal": "2026-10-26",
+  "java": "21.0.10",
+  "maven": "3.10.0",
+  "testes": 37,
+  "falhas": 0,
+  "erros": 0,
+  "ignorados": 0,
+  "classes": [
+    {
+      "classe": "br.com.desafio.minhaestante.livro.ComponentesLivroTests",
+      "testes": 3,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "segundos": "3.549"
+    },
+    {
+      "classe": "br.com.desafio.minhaestante.livro.LivroControllerTests",
+      "testes": 23,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "segundos": "44.044"
+    },
+    {
+      "classe": "br.com.desafio.minhaestante.livro.LivroServiceTests",
+      "testes": 10,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "segundos": "2.812"
+    },
+    {
+      "classe": "br.com.desafio.minhaestante.MinhaEstanteApplicationTests",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "segundos": "6.945"
+    }
+  ],
+  "origem": "Relatorios Surefire gerados nesta execucao; comando terminou com exit code 0."
+}

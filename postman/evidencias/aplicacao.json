@@ -1,0 +1,12 @@
+{
+  "instanteFinal": "2026-10-26T19:04:11.1699602-03:00",
+  "comando": ".\\mvnw.cmd spring-boot:run",
+  "java": "21.0.10",
+  "porta": 8080,
+  "inicializacaoConfirmada": true,
+  "evidencia": "Started MinhaEstanteApplication e respostas HTTP reais registradas em http-e-h2.json",
+  "encerramento": "Interrupcao manual por Ctrl+C; contexto iniciou fechamento; plugin run reportou BUILD FAILURE com processo filho exit code 1",
+  "encerramentoNormalComBuildSuccess": false,
+  "listener8080AposEncerramento": false,
+  "observacao": "Nao confundir o resultado da interrupcao manual de run com o comando test, que terminou BUILD SUCCESS e exit code 0."
+}

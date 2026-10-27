@@ -1,0 +1,244 @@
+{
+  "info": {
+    "name": "Minha Estante API - Demonstracao pessoal",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Cenário adicional separado dos dez testes obrigatórios. Títulos e autores fornecidos pelo aluno: Harry Potter — JK Rowling; Cronicas — C.S Lewis; Automação — M. Jonathan. As grafias são preservadas conforme a confirmação. Execute somente depois dos dez testes ou em outra inicialização. Captura IDs e confere dados e Location."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal1Titulo",
+      "value": "Harry Potter",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal1Autor",
+      "value": "JK Rowling",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal1Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal2Titulo",
+      "value": "Cronicas",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal2Autor",
+      "value": "C.S Lewis",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal2Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal3Titulo",
+      "value": "Automação",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal3Autor",
+      "value": "M. Jonathan",
+      "type": "string"
+    },
+    {
+      "key": "livroPessoal3Id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "P1 - Cadastrar livro escolhido pelo aluno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST do livro pessoal 1; preencher título e autor confirmados antes de executar.",
+        "body": {
+          "mode": "raw",
+          "raw": "{{corpoLivroPessoal}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Exige escolhas reais do aluno e serializa os textos para aceitar aspas e acentos.",
+              "const titulo = pm.variables.get('livroPessoal1Titulo');",
+              "const autor = pm.variables.get('livroPessoal1Autor');",
+              "if (!titulo || !titulo.trim() || !autor || !autor.trim()) {",
+              "  pm.execution.skipRequest();",
+              "  throw new Error('Preencha o título completo e o autor do livro pessoal 1.');",
+              "}",
+              "pm.variables.set('corpoLivroPessoal', JSON.stringify({titulo, autor, lido:false}));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST do livro pessoal 1; preencher título e autor confirmados antes de executar.",
+              "pm.test('Código HTTP 201', () => pm.response.to.have.status(201));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID positivo', () => pm.expect(livro.id).to.be.above(0));",
+              "pm.test('Dados pessoais preservados', () => { pm.expect(livro.titulo).to.eql(pm.variables.get('livroPessoal1Titulo')); pm.expect(livro.autor).to.eql(pm.variables.get('livroPessoal1Autor')); pm.expect(livro.lido).to.eql(false); });",
+              "pm.test('Location do livro pessoal', () => pm.expect(pm.response.headers.get('Location')).to.eql(pm.variables.get('baseUrl')+'/api/livros/'+livro.id));",
+              "if (pm.response.code === 201) pm.collectionVariables.set('livroPessoal1Id', String(livro.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "P2 - Cadastrar livro escolhido pelo aluno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST do livro pessoal 2; preencher título e autor confirmados antes de executar.",
+        "body": {
+          "mode": "raw",
+          "raw": "{{corpoLivroPessoal}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Exige escolhas reais do aluno e serializa os textos para aceitar aspas e acentos.",
+              "const titulo = pm.variables.get('livroPessoal2Titulo');",
+              "const autor = pm.variables.get('livroPessoal2Autor');",
+              "if (!titulo || !titulo.trim() || !autor || !autor.trim()) {",
+              "  pm.execution.skipRequest();",
+              "  throw new Error('Preencha o título completo e o autor do livro pessoal 2.');",
+              "}",
+              "pm.variables.set('corpoLivroPessoal', JSON.stringify({titulo, autor, lido:false}));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST do livro pessoal 2; preencher título e autor confirmados antes de executar.",
+              "pm.test('Código HTTP 201', () => pm.response.to.have.status(201));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID positivo', () => pm.expect(livro.id).to.be.above(0));",
+              "pm.test('Dados pessoais preservados', () => { pm.expect(livro.titulo).to.eql(pm.variables.get('livroPessoal2Titulo')); pm.expect(livro.autor).to.eql(pm.variables.get('livroPessoal2Autor')); pm.expect(livro.lido).to.eql(false); });",
+              "pm.test('Location do livro pessoal', () => pm.expect(pm.response.headers.get('Location')).to.eql(pm.variables.get('baseUrl')+'/api/livros/'+livro.id));",
+              "if (pm.response.code === 201) pm.collectionVariables.set('livroPessoal2Id', String(livro.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "P3 - Cadastrar livro escolhido pelo aluno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST do livro pessoal 3; preencher título e autor confirmados antes de executar.",
+        "body": {
+          "mode": "raw",
+          "raw": "{{corpoLivroPessoal}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Exige escolhas reais do aluno e serializa os textos para aceitar aspas e acentos.",
+              "const titulo = pm.variables.get('livroPessoal3Titulo');",
+              "const autor = pm.variables.get('livroPessoal3Autor');",
+              "if (!titulo || !titulo.trim() || !autor || !autor.trim()) {",
+              "  pm.execution.skipRequest();",
+              "  throw new Error('Preencha o título completo e o autor do livro pessoal 3.');",
+              "}",
+              "pm.variables.set('corpoLivroPessoal', JSON.stringify({titulo, autor, lido:false}));"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST do livro pessoal 3; preencher título e autor confirmados antes de executar.",
+              "pm.test('Código HTTP 201', () => pm.response.to.have.status(201));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID positivo', () => pm.expect(livro.id).to.be.above(0));",
+              "pm.test('Dados pessoais preservados', () => { pm.expect(livro.titulo).to.eql(pm.variables.get('livroPessoal3Titulo')); pm.expect(livro.autor).to.eql(pm.variables.get('livroPessoal3Autor')); pm.expect(livro.lido).to.eql(false); });",
+              "pm.test('Location do livro pessoal', () => pm.expect(pm.response.headers.get('Location')).to.eql(pm.variables.get('baseUrl')+'/api/livros/'+livro.id));",
+              "if (pm.response.code === 201) pm.collectionVariables.set('livroPessoal3Id', String(livro.id));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

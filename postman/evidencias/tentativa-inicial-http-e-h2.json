@@ -1,0 +1,358 @@
+{
+  "inicio": "2026-10-26T18:57:16.8104944-03:00",
+  "cliente": "PowerShell 7 / Invoke-WebRequest; nao e execucao no Postman",
+  "baseUrl": "http://localhost:8080",
+  "postman": "PENDENTE: importar e executar as collections no aplicativo",
+  "obrigatorios": [
+    {
+      "numero": 1,
+      "nome": "01 - Listar banco vazio",
+      "instante": "2026-10-26T18:57:22.4685024-03:00",
+      "metodo": "GET",
+      "url": "http://localhost:8080/api/livros",
+      "corpoEnviado": null,
+      "esperadoHttp": 200,
+      "observadoHttp": 200,
+      "location": "",
+      "contentType": "application/json",
+      "corpoRecebido": "[]",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Banco vazio antes do primeiro cadastro",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 2,
+      "nome": "02 - Cadastrar primeiro livro",
+      "instante": "2026-10-26T18:57:23.6665545-03:00",
+      "metodo": "POST",
+      "url": "http://localhost:8080/api/livros",
+      "corpoEnviado": "{\n  \"titulo\": \"O Hobbit\",\n  \"autor\": \"J. R. R. Tolkien\",\n  \"lido\": false\n}",
+      "esperadoHttp": 201,
+      "observadoHttp": 201,
+      "location": "http://localhost:8080/api/livros/1",
+      "contentType": "application/json",
+      "corpoRecebido": "{\"titulo\":\"O Hobbit\",\"autor\":\"J. R. R. Tolkien\",\"lido\":false,\"id\":1}",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID gerado numerico positivo",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Location do primeiro cadastro",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 3,
+      "nome": "03 - Cadastrar segundo livro",
+      "instante": "2026-10-26T18:57:23.7682280-03:00",
+      "metodo": "POST",
+      "url": "http://localhost:8080/api/livros",
+      "corpoEnviado": "{\n  \"titulo\": \"Dom Casmurro\",\n  \"autor\": \"Machado de Assis\",\n  \"lido\": false\n}",
+      "esperadoHttp": 201,
+      "observadoHttp": 201,
+      "location": "http://localhost:8080/api/livros/2",
+      "contentType": "application/json",
+      "corpoRecebido": "{\"titulo\":\"Dom Casmurro\",\"autor\":\"Machado de Assis\",\"lido\":false,\"id\":2}",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Segundo ID valido e distinto",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Location do segundo cadastro",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 4,
+      "nome": "04 - Listar livros",
+      "instante": "2026-10-26T18:57:23.9123773-03:00",
+      "metodo": "GET",
+      "url": "http://localhost:8080/api/livros",
+      "corpoEnviado": null,
+      "esperadoHttp": 200,
+      "observadoHttp": 200,
+      "location": "",
+      "contentType": "application/json",
+      "corpoRecebido": "[{\"titulo\":\"O Hobbit\",\"autor\":\"J. R. R. Tolkien\",\"lido\":false,\"id\":1},{\"titulo\":\"Dom Casmurro\",\"autor\":\"Machado de Assis\",\"lido\":false,\"id\":2}]",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Lista contem exatamente dois livros",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 5,
+      "nome": "05 - Buscar por ID",
+      "instante": "2026-10-26T18:57:24.1328808-03:00",
+      "metodo": "GET",
+      "url": "http://localhost:8080/api/livros/1",
+      "corpoEnviado": null,
+      "esperadoHttp": 200,
+      "observadoHttp": 200,
+      "location": "",
+      "contentType": "application/json",
+      "corpoRecebido": "{\"titulo\":\"O Hobbit\",\"autor\":\"J. R. R. Tolkien\",\"lido\":false,\"id\":1}",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 6,
+      "nome": "06 - Atualizar livro",
+      "instante": "2026-10-26T18:57:24.4197757-03:00",
+      "metodo": "PUT",
+      "url": "http://localhost:8080/api/livros/1",
+      "corpoEnviado": "{\n  \"titulo\": \"O Hobbit - Edicao revista\",\n  \"autor\": \"J. R. R. Tolkien\",\n  \"lido\": false\n}",
+      "esperadoHttp": 200,
+      "observadoHttp": 200,
+      "location": "",
+      "contentType": "application/json",
+      "corpoRecebido": "{\"titulo\":\"O Hobbit - Edicao revista\",\"autor\":\"J. R. R. Tolkien\",\"lido\":false,\"id\":1}",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        }
+      ],
+      "aprovado": true
+    },
+    {
+      "numero": 7,
+      "nome": "07 - Marcar como lido",
+      "instante": "2026-10-26T18:57:24.5449311-03:00",
+      "metodo": "PATCH",
+      "url": "http://localhost:8080/api/livros/1/lido",
+      "corpoEnviado": null,
+      "esperadoHttp": 200,
+      "observadoHttp": 200,
+      "location": "",
+      "contentType": "application/json",
+      "corpoRecebido": "{\"titulo\":\"O Hobbit - Edicao revista\",\"autor\":\"J. R. R. Tolkien\",\"lido\":true,\"id\":1}",
+      "validacoes": [
+        {
+          "descricao": "Codigo HTTP esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Resposta JSON",
+          "aprovado": true
+        },
+        {
+          "descricao": "Objeto de livro presente",
+          "aprovado": true
+        },
+        {
+          "descricao": "ID preservado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Titulo corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Autor corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "Estado lido corresponde ao esperado",
+          "aprovado": true
+        },
+        {
+          "descricao": "PATCH enviado sem corpo JSON",
+          "aprovado": true
+        }
+      ],
+      "aprovado": false
+    }
+  ],
+  "demonstracaoPessoal": [],
+  "h2": [
+    {
+      "etapa": "apos teste 7",
+      "instante": "2026-10-26T18:57:24.8355277-03:00",
+      "consoleHttp": 200,
+      "jdbcUrl": "jdbc:h2:mem:estante",
+      "consultas": [],
+      "aprovado": false
+    }
+  ],
+  "resultado": "FALHA",
+  "erro": "Tabela de resultado SQL nao encontrada no console H2.",
+  "fim": "2026-10-26T18:57:24.8913769-03:00"
+}

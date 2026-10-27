@@ -1,0 +1,400 @@
+{
+  "info": {
+    "name": "Minha Estante API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Dez testes obrigatórios do Bloco 5. Reinicie a aplicação para obter H2 vazio e execute de 01 a 10, uma iteração. Não execute a demonstração personalizada antes desta sequência. baseUrl deve ser http://localhost:8080; remova variáveis de ambiente conflitantes. Scripts em pt-BR; a importação e execução no Postman devem ser confirmadas separadamente das evidências HTTP por PowerShell."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "livroId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "segundoLivroId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Listar banco vazio",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "GET antes de qualquer cadastro; espera 200 e []."
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Elimina IDs de uma execução anterior, sem apagar registros do banco.",
+              "pm.collectionVariables.unset('livroId');",
+              "pm.collectionVariables.unset('segundoLivroId');"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// GET antes de qualquer cadastro; espera 200 e [].",
+              "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Banco vazio', () => pm.expect(pm.response.json()).to.eql([]));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Cadastrar primeiro livro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST cadastra O Hobbit; valida corpo, ID e Location e captura livroId.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"O Hobbit\",\n  \"autor\": \"J. R. R. Tolkien\",\n  \"lido\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST cadastra O Hobbit; valida corpo, ID e Location e captura livroId.",
+              "pm.test('Código HTTP 201', () => pm.response.to.have.status(201));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID gerado válido', () => { pm.expect(livro.id).to.be.a('number'); pm.expect(Number.isInteger(livro.id)).to.eql(true); pm.expect(livro.id).to.be.above(0); });",
+              "pm.test('titulo corresponde ao esperado', () => pm.expect(livro.titulo).to.eql(\"O Hobbit\"));",
+              "pm.test('autor corresponde ao esperado', () => pm.expect(livro.autor).to.eql(\"J. R. R. Tolkien\"));",
+              "pm.test('lido corresponde ao esperado', () => pm.expect(livro.lido).to.eql(false));",
+              "pm.test('Location identifica o recurso', () => pm.expect(pm.response.headers.get('Location')).to.eql(pm.variables.get('baseUrl') + '/api/livros/' + livro.id));",
+              "// Captura o ID apenas após confirmar o cadastro; não depende de numeração fixa.",
+              "if (pm.response.code === 201 && Number.isInteger(livro.id) && livro.id > 0) pm.collectionVariables.set('livroId', String(livro.id));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Cadastrar segundo livro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST cadastra Dom Casmurro; valida o cadastro e um ID distinto.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Dom Casmurro\",\n  \"autor\": \"Machado de Assis\",\n  \"lido\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST cadastra Dom Casmurro; valida o cadastro e um ID distinto.",
+              "pm.test('Código HTTP 201', () => pm.response.to.have.status(201));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID gerado válido', () => { pm.expect(livro.id).to.be.a('number'); pm.expect(Number.isInteger(livro.id)).to.eql(true); pm.expect(livro.id).to.be.above(0); });",
+              "pm.test('titulo corresponde ao esperado', () => pm.expect(livro.titulo).to.eql(\"Dom Casmurro\"));",
+              "pm.test('autor corresponde ao esperado', () => pm.expect(livro.autor).to.eql(\"Machado de Assis\"));",
+              "pm.test('lido corresponde ao esperado', () => pm.expect(livro.lido).to.eql(false));",
+              "pm.test('Location identifica o recurso', () => pm.expect(pm.response.headers.get('Location')).to.eql(pm.variables.get('baseUrl') + '/api/livros/' + livro.id));",
+              "// Captura o ID apenas após confirmar o cadastro; não depende de numeração fixa.",
+              "if (pm.response.code === 201 && Number.isInteger(livro.id) && livro.id > 0) pm.collectionVariables.set('segundoLivroId', String(livro.id));",
+              "pm.test('IDs distintos', () => pm.expect(String(livro.id)).not.to.eql(String(pm.collectionVariables.get('livroId'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Listar livros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "GET confirma os dois cadastros, sem depender da ordem da lista."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// GET confirma os dois cadastros, sem depender da ordem da lista.",
+              "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+              "const livros = pm.response.json();",
+              "pm.test('Exatamente dois livros', () => pm.expect(livros).to.be.an('array').with.lengthOf(2));",
+              "const primeiro = livros.find(l => String(l.id) === String(pm.collectionVariables.get('livroId')));",
+              "const segundo = livros.find(l => String(l.id) === String(pm.collectionVariables.get('segundoLivroId')));",
+              "pm.test('Primeiro cadastro presente', () => pm.expect(primeiro).to.deep.eql({id:Number(pm.collectionVariables.get('livroId')),...{\"titulo\":\"O Hobbit\",\"autor\":\"J. R. R. Tolkien\",\"lido\":false}}));",
+              "pm.test('Segundo cadastro presente', () => pm.expect(segundo).to.deep.eql({id:Number(pm.collectionVariables.get('segundoLivroId')),...{\"titulo\":\"Dom Casmurro\",\"autor\":\"Machado de Assis\",\"lido\":false}}));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Buscar por ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros/{{livroId}}",
+        "description": "GET consulta o primeiro cadastro com ID capturado dinamicamente."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// GET consulta o primeiro cadastro com ID capturado dinamicamente.",
+              "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID preservado', () => pm.expect(String(livro.id)).to.eql(String(pm.collectionVariables.get('livroId'))));",
+              "pm.test('titulo corresponde ao esperado', () => pm.expect(livro.titulo).to.eql(\"O Hobbit\"));",
+              "pm.test('autor corresponde ao esperado', () => pm.expect(livro.autor).to.eql(\"J. R. R. Tolkien\"));",
+              "pm.test('lido corresponde ao esperado', () => pm.expect(livro.lido).to.eql(false));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Atualizar livro",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros/{{livroId}}",
+        "description": "PUT altera o título e confirma ID, autor e estado de leitura.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"O Hobbit - Edicao revista\",\n  \"autor\": \"J. R. R. Tolkien\",\n  \"lido\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// PUT altera o título e confirma ID, autor e estado de leitura.",
+              "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID preservado', () => pm.expect(String(livro.id)).to.eql(String(pm.collectionVariables.get('livroId'))));",
+              "pm.test('titulo corresponde ao esperado', () => pm.expect(livro.titulo).to.eql(\"O Hobbit - Edicao revista\"));",
+              "pm.test('autor corresponde ao esperado', () => pm.expect(livro.autor).to.eql(\"J. R. R. Tolkien\"));",
+              "pm.test('lido corresponde ao esperado', () => pm.expect(livro.lido).to.eql(false));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Marcar como lido",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros/{{livroId}}/lido",
+        "description": "PATCH sem corpo; somente lido muda para true. Neste ponto, consulte o H2 para observar dois livros, um lido."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// PATCH sem corpo; somente lido muda para true. Neste ponto, consulte o H2 para observar dois livros, um lido.",
+              "pm.test('Código HTTP 200', () => pm.response.to.have.status(200));",
+              "// A resposta JSON representa o mesmo livro persistido na tabela LIVROS.",
+              "const livro = pm.response.json();",
+              "pm.test('ID preservado', () => pm.expect(String(livro.id)).to.eql(String(pm.collectionVariables.get('livroId'))));",
+              "pm.test('titulo corresponde ao esperado', () => pm.expect(livro.titulo).to.eql(\"O Hobbit - Edicao revista\"));",
+              "pm.test('autor corresponde ao esperado', () => pm.expect(livro.autor).to.eql(\"J. R. R. Tolkien\"));",
+              "pm.test('lido corresponde ao esperado', () => pm.expect(livro.lido).to.eql(true));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Cadastro inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros",
+        "description": "POST com título vazio; espera 400 com propriedade erro.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"\",\n  \"autor\": \"Autor de teste\",\n  \"lido\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// POST com título vazio; espera 400 com propriedade erro.",
+              "pm.test('Código HTTP 400', () => pm.response.to.have.status(400));",
+              "const resposta = pm.response.json();",
+              "pm.test('JSON contém erro', () => pm.expect(resposta.erro).to.be.a('string').and.not.empty);",
+              "pm.test('Mensagem prevista', () => pm.expect(resposta.erro).to.eql(\"Informe titulo e autor validos.\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Excluir livro",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros/{{livroId}}",
+        "description": "DELETE exclui o primeiro livro; espera 204 sem corpo."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// DELETE exclui o primeiro livro; espera 204 sem corpo.",
+              "pm.test('Código HTTP 204', () => pm.response.to.have.status(204));",
+              "pm.test('Corpo vazio', () => pm.expect(pm.response.text()).to.eql(''));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Buscar livro excluído",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/livros/{{livroId}}",
+        "description": "GET do livro excluído; espera 404. No H2 deve restar apenas Dom Casmurro, não lido."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// GET do livro excluído; espera 404. No H2 deve restar apenas Dom Casmurro, não lido.",
+              "pm.test('Código HTTP 404', () => pm.response.to.have.status(404));",
+              "const resposta = pm.response.json();",
+              "pm.test('JSON contém erro', () => pm.expect(resposta.erro).to.be.a('string').and.not.empty);",
+              "pm.test('ID excluído aparece no erro', () => pm.expect(resposta.erro).to.eql('Livro com id ' + pm.collectionVariables.get('livroId') + ' nao encontrado.'));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

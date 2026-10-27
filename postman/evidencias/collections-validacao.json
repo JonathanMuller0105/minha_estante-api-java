@@ -1,0 +1,19 @@
+{
+  "validacao": "JSON, schema oficial v2.1 (Test-Json) e sintaxe JavaScript (Node vm.Script)",
+  "execucaoNoPostman": "NAO REALIZADA",
+  "observacao": "Análise de sintaxe não executa as asserções pm.test. Schema validado previamente com Test-Json.",
+  "arquivos": [
+    {
+      "arquivo": "postman/Minha Estante API.postman_collection.json",
+      "requisicoes": 10,
+      "scriptsComSintaxeValida": 11,
+      "sha256": "3092e101110f2dbb008980ea7e55ef45cf246cd9db665a0994824ed2dcdac5ac"
+    },
+    {
+      "arquivo": "postman/Demonstracao pessoal.postman_collection.json",
+      "requisicoes": 3,
+      "scriptsComSintaxeValida": 6,
+      "sha256": "f7b72d5c81cd1ad5f4b2e1d534713e5b1505e15beb7210d83998586cd9290fe6"
+    }
+  ]
+}

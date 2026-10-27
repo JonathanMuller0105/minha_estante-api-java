@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: br.com.desafio.minhaestante.livro.ComponentesLivroTests
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.549 s -- in br.com.desafio.minhaestante.livro.ComponentesLivroTests
+-------------------------------------------------------------------------------
+Test set: br.com.desafio.minhaestante.livro.LivroControllerTests
+-------------------------------------------------------------------------------
+Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 44.04 s -- in br.com.desafio.minhaestante.livro.LivroControllerTests
+-------------------------------------------------------------------------------
+Test set: br.com.desafio.minhaestante.livro.LivroServiceTests
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.812 s -- in br.com.desafio.minhaestante.livro.LivroServiceTests
+-------------------------------------------------------------------------------
+Test set: br.com.desafio.minhaestante.MinhaEstanteApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.945 s -- in br.com.desafio.minhaestante.MinhaEstanteApplicationTests
